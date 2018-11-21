@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Toolbar = ({ selectedNote, newNote }) => {
+const Toolbar = ({ submitNote, noteMenu, newNote }) => {
 	return (
-		selectedNote >= 0 ? <button>done</button> : <button onClick={newNote}>+</button>
+		!noteMenu ? <button onClick={submitNote}>done</button> : <button onClick={newNote}>+</button>
 		)
 
 }

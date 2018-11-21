@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-const Note = ({ title }) => {
+const Note = ({ selectNote, title, body, id }) => {
 	
 		return (
-			<div>{title}</div>
+			<div id={id} onClick={selectNote}>{title}</div>
 			)
 	
 }
