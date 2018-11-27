@@ -64,8 +64,10 @@ class App extends Component {
   render() {
     const { noteMenu, notes } = this.state;
     return (
-      <div>
-        <h1>Nota Bene</h1>
+      <div className="App">
+        <link href="https://fonts.googleapis.com/css?family=Italianno" rel="stylesheet"></link>
+        <div className="container">
+        <h1 className="header ma0">Nota Bene</h1>
         <Toolbar noteMenu={noteMenu} newNote={this.newNote} submitNote={this.submitNote}/>
           {!this.state.noteMenu ? 
           <SelectedNote titleChange={this.titleChange}
@@ -74,6 +76,7 @@ class App extends Component {
                         body={this.state.currNote.body}/> 
           : <NoteList notes={notes} selectNote={this.selectNote}/>
         }
+        </div>
       </div>
     );
   }
