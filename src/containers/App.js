@@ -32,19 +32,24 @@ class App extends Component {
 
   submitNote = () => {
     if (this.state.edited && this.state.selectedIndex >= 0) {
-      const newNotes = this.state.notes.slice(0,this.state.selectedIndex)
+      const newNotes = this.state.notes.slice(0,this.state.selectedIndex)  
+        .concat(this.state.notes.slice(Number(this.state.selectedIndex)+1, 
+                                       this.state.notes.length))
         .concat([{title: this.state.currNote.title, 
                   body: this.state.currNote.body,
-                  key: this.state.selectedIndex}])
-        .concat(this.state.notes.slice(this.state.selectedIndex+1, this.state.notes.length))
-       this.setState({ notes: newNotes, noteMenu: true, currNote:{} }); 
+                  key: this.state.selectedIndex}]);
+      const orderedNotes = newNotes.map((note, i) => {
+        return Object.assign(note, {key: i}) 
+      })
+       this.setState({ notes: orderedNotes, noteMenu: true, currNote:{} }); 
     } else if (this.state.edited && this.state.selectedIndex < 0) {
       this.setState(prevState => ({
-        notes: [...prevState.notes, {title: this.state.currNote.title, body: this.state.currNote.body, key: this.state.noteid}]
+        notes: [...prevState.notes, 
+                {title: this.state.currNote.title, 
+                  body: this.state.currNote.body, 
+                  key: this.state.noteid}]
       }));
-      this.setState(prevState => ({
-        noteid: prevState.noteid+1
-      }));
+      this.setState({ noteid: Number(this.state.notes.length)+1});
       this.setState({ noteMenu: true, edited: false, currNote: {} });
     } else {
       this.setState({ noteMenu: true, currNote: {} })
@@ -61,12 +66,23 @@ class App extends Component {
     this.setState({noteMenu: false, selectedIndex: id });
   }
 
+  deleteNote = (event) => {
+    let id = event.target.id;
+    const newNotes = this.state.notes.slice(0,id)  
+        .concat(this.state.notes.slice(Number(id)+1, 
+                                       this.state.notes.length));
+      const orderedNotes = newNotes.map((note, i) => {
+        return Object.assign(note, {key: i}) 
+      })
+    this.setState({ notes: orderedNotes })
+  }
+
   render() {
     const { noteMenu, notes } = this.state;
     return (
       <div className="App">
         <link href="https://fonts.googleapis.com/css?family=Italianno" rel="stylesheet"></link>
-        <div className="container">
+        <div className="container br3 shadow-2">
         <h1 className="header ma0">Nota Bene</h1>
         <Toolbar noteMenu={noteMenu} newNote={this.newNote} submitNote={this.submitNote}/>
           {!this.state.noteMenu ? 
@@ -74,7 +90,9 @@ class App extends Component {
                         noteChange={this.noteChange}
                         title= {this.state.currNote.title} 
                         body={this.state.currNote.body}/> 
-          : <NoteList notes={notes} selectNote={this.selectNote}/>
+          : <NoteList notes={notes} 
+                      deleteNote={this.deleteNote} 
+                      selectNote={this.selectNote}/>
         }
         </div>
       </div>
