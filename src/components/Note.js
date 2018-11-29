@@ -11,10 +11,7 @@ const Note = ({ selectNote, deleteNote, title, body, id }) => {
 			<div id={id} className="delete-btn f4 bg-near-white br3 br--top mv0 pv2 ph3"
 			  		onClick={deleteNote}>Delete</div>
 			</article>
-
-			
-			 
-			)
+			);
 	
 }
 

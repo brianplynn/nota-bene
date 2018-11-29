@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
 import SelectedNote from "../components/SelectedNote.js";
+import Signin from "../components/Signin.js";
+import Register from "../components/Register.js";
 import Toolbar from "./Toolbar.js";
 import NoteList from "./NoteList.js";
+
+const initialState = {
+      notes: [],
+      noteMenu: true,
+      currNote: {},
+      edited: false,
+      selectedIndex: -1,
+      noteid: 0,
+      route: "sign-in",
+      isSignedIn: false,
+    }
 
 class App extends Component {
   constructor() {
@@ -14,6 +27,8 @@ class App extends Component {
       edited: false,
       selectedIndex: -1,
       noteid: 0,
+      route: "sign-in",
+      isSignedIn: false,
     }
   }
 
@@ -56,7 +71,6 @@ class App extends Component {
     }
     this.setState({ selectedIndex: -1})
   }
-  // maybe try using array.map to map ids of notes to indexes? for when notes array shifts around
 
   selectNote = (event) => {
     let id = event.target.id;
@@ -71,17 +85,26 @@ class App extends Component {
     const newNotes = this.state.notes.slice(0,id)  
         .concat(this.state.notes.slice(Number(id)+1, 
                                        this.state.notes.length));
-      const orderedNotes = newNotes.map((note, i) => {
-        return Object.assign(note, {key: i}) 
-      })
+    const orderedNotes = newNotes.map((note, i) => {
+      return Object.assign(note, {key: i}) 
+    })
     this.setState({ notes: orderedNotes })
   }
 
+  onRouteChange = (route) => {
+    if (route === "sign-out") {
+      this.setState(initialState)
+    } else if (route === "home") {
+      this.setState({ isSignedIn: true })
+    } 
+    this.setState({ route: route });
+  }
+
   render() {
-    const { noteMenu, notes } = this.state;
+    const { noteMenu, notes, route } = this.state;
     return (
       <div className="App">
-        <link href="https://fonts.googleapis.com/css?family=Italianno" rel="stylesheet"></link>
+        {route === "home" ?
         <div className="container br3 shadow-2">
         <h1 className="header ma0">Nota Bene</h1>
         <Toolbar noteMenu={noteMenu} newNote={this.newNote} submitNote={this.submitNote}/>
@@ -95,6 +118,10 @@ class App extends Component {
                       selectNote={this.selectNote}/>
         }
         </div>
+        : ( route === "sign-in" || route === "sign-out" 
+            ? <Signin onRouteChange={this.onRouteChange}/>
+            : <Register onRouteChange={this.onRouteChange}/> )
+      }
       </div>
     );
   }
