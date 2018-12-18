@@ -7,6 +7,7 @@ import Toolbar from "./Toolbar.js";
 import NoteList from "./NoteList.js";
 
 const initialState = {
+      user: "",
       notes: [],
       noteMenu: true,
       currNote: {},
@@ -21,6 +22,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      user: "",
       notes: [],
       noteMenu: true,
       currNote: {},
@@ -56,7 +58,8 @@ class App extends Component {
       const orderedNotes = newNotes.map((note, i) => {
         return Object.assign(note, {key: i}) 
       })
-       this.setState({ notes: orderedNotes, noteMenu: true, currNote:{} }); 
+       this.setState({ notes: orderedNotes, noteMenu: true, currNote:{} });
+       this.syncNotes(); 
     } else if (this.state.edited && this.state.selectedIndex < 0) {
       this.setState(prevState => ({
         notes: [...prevState.notes, 
@@ -66,6 +69,7 @@ class App extends Component {
       }));
       this.setState({ noteid: Number(this.state.notes.length)+1});
       this.setState({ noteMenu: true, edited: false, currNote: {} });
+      this.syncNotes();
     } else {
       this.setState({ noteMenu: true, currNote: {} })
     }
@@ -89,6 +93,7 @@ class App extends Component {
       return Object.assign(note, {key: i}) 
     })
     this.setState({ notes: orderedNotes })
+    this.syncNotes();
   }
 
   onRouteChange = (route) => {
@@ -100,6 +105,28 @@ class App extends Component {
     this.setState({ route: route });
   }
 
+  syncNotes = () => {
+    fetch('https://localhost:3001/notes', {
+        method: "put",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({  
+          user: this.state.user,
+          notes: this.state.notes
+        })
+      })
+      .then(response => response.json())
+      .then(notes => {
+        console.log(notes);
+      });
+  }
+
+  loadNotes = (notes) => {
+    this.setState({ notes: notes });
+  }
+
+  loadUser = (user) => {
+    this.setState({ user: user });
+  }
   render() {
     const { noteMenu, notes, route } = this.state;
     return (
@@ -119,8 +146,11 @@ class App extends Component {
         }
         </div>
         : ( route === "sign-in" || route === "sign-out" 
-            ? <Signin onRouteChange={this.onRouteChange}/>
-            : <Register onRouteChange={this.onRouteChange}/> )
+            ? <Signin onRouteChange={this.onRouteChange} 
+                      loadNotes={this.loadNotes}
+                      loadUser={this.loadUser}/>
+            : <Register onRouteChange={this.onRouteChange}  
+                        loadUser={this.loadUser} /> )
       }
       </div>
     );
