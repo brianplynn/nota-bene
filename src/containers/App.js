@@ -6,6 +6,10 @@ import Register from "../components/Register.js";
 import Toolbar from "./Toolbar.js";
 import NoteList from "./NoteList.js";
 
+
+// TODO: error handling for unable to signin, unable to register (name already taken)
+        // tasteful overflow for notes
+        // deploy to heroku
 const initialState = {
       user: "",
       notes: [],
@@ -58,8 +62,8 @@ class App extends Component {
       const orderedNotes = newNotes.map((note, i) => {
         return Object.assign(note, {key: i}) 
       })
-       this.setState({ notes: orderedNotes, noteMenu: true, currNote:{} });
-       this.syncNotes(); 
+       this.setState({ notes: orderedNotes, noteMenu: true, currNote:{} },
+                      () => this.syncNotes()); 
     } else if (this.state.edited && this.state.selectedIndex < 0) {
       this.setState(prevState => ({
         notes: [...prevState.notes, 
@@ -68,8 +72,8 @@ class App extends Component {
                   key: this.state.noteid}]
       }));
       this.setState({ noteid: Number(this.state.notes.length)+1});
-      this.setState({ noteMenu: true, edited: false, currNote: {} });
-      this.syncNotes();
+      this.setState({ noteMenu: true, edited: false, currNote: {} },
+                    () => this.syncNotes());
     } else {
       this.setState({ noteMenu: true, currNote: {} })
     }
@@ -92,8 +96,8 @@ class App extends Component {
     const orderedNotes = newNotes.map((note, i) => {
       return Object.assign(note, {key: i}) 
     })
-    this.setState({ notes: orderedNotes })
-    this.syncNotes();
+    this.setState({ noteid: Number(this.state.notes.length)-1})
+    this.setState({ notes: orderedNotes }, () => this.syncNotes());
   }
 
   onRouteChange = (route) => {
@@ -106,7 +110,7 @@ class App extends Component {
   }
 
   syncNotes = () => {
-    fetch('https://localhost:3001/notes', {
+    fetch('http://localhost:3001/notes', {
         method: "put",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({  
