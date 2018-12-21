@@ -6,6 +6,7 @@ class Signin extends React.Component {
 		this.state = {
 			signInUser: '',
 			signInPassword: '',
+			errorText: '',
 		}
 	}
 
@@ -27,14 +28,18 @@ class Signin extends React.Component {
 			})
 		})
 		.then(response => response.json())
-		.then(notes => {
-			if (notes) {
+		.then(res => {
+			if (typeof res != "string") {
 				this.props.onRouteChange('home');
-				this.props.loadNotes(notes);
+				this.props.loadNotes(res);
 				this.props.loadUser(this.state.signInUser);
+			} else {
+				this.setState({ errorText: res });
+				document.getElementById("name-desc").classList.remove("hid");
+				document.getElementById("name-desc").classList.add("vis");
 			}
+
 		});
-		
 	}
 	render() {
 		const { onRouteChange } = this.props;
@@ -44,8 +49,8 @@ class Signin extends React.Component {
 			    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
 			      <h1 className="header ma0">Nota Bene</h1>
 			      <div className="mt3">
-			        <label className="db fw6 lh-copy f6" htmlFor="email-address">Name</label>
-			        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+			        <label className="db fw6 lh-copy f6">Name</label>
+			        <input className="sign-in-bar pa2 input-reset ba bg-transparent hover-bg-black hover-white" 
 			        name="name"  id="name" 
 			        onChange={this.onUserChange} />
 			      </div>
@@ -54,8 +59,14 @@ class Signin extends React.Component {
 			        <input className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
 			        type="password" name="password"  id="password" 
 			        onChange={this.onPasswordChange} />
+			        <div id="name-desc" className="center br2 f6 bg-washed-red db w5 pa2 hid mt1 ">
+			        	<svg class="w1" data-icon="info" viewBox="0 0 32 32">
+						    <title>info icon</title>
+						    <path d="M16 0 A16 16 0 0 1 16 32 A16 16 0 0 1 16 0 M19 15 L13 15 L13 26 L19 26 z M16 6 A3 3 0 0 0 16 12 A3 3 0 0 0 16 6"></path>
+						</svg>
+					  <span class="lh-title ml3">{this.state.errorText}</span>
+					</div>
 			      </div>
-			      <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox" /> Remember me</label>
 			    </fieldset>
 			    <div className="">
 			      <p className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 

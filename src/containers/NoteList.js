@@ -3,7 +3,7 @@ import Note from "../components/Note.js"
 
 const NoteList = ({ notes, deleteNote, selectNote }) => {
 	return (
-		<div>
+		<div className="note-list">
 			{
 				notes.map((note, i) => {
 					return <Note

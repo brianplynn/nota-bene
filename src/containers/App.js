@@ -7,8 +7,7 @@ import Toolbar from "./Toolbar.js";
 import NoteList from "./NoteList.js";
 
 
-// TODO: error handling for unable to signin, unable to register (name already taken)
-        // tasteful overflow for notes
+// TODO: tasteful overflow for notes
         // deploy to heroku
 const initialState = {
       user: "",
@@ -119,8 +118,10 @@ class App extends Component {
         })
       })
       .then(response => response.json())
-      .then(notes => {
-        console.log(notes);
+      .then(res => {
+        if (res === 'unable to sync') {
+          console.log("error");
+        }
       });
   }
 

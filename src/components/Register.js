@@ -7,7 +7,8 @@ class Register extends React.Component {
 		this.state = {
 			name: '',
 			password: '',
-			confirmPassword: ''
+			confirmPassword: '',
+			errorText: ''
 		}
 	}
 
@@ -34,15 +35,20 @@ class Register extends React.Component {
 				})
 			})
 			.then(response => response.json())
-			.then(tableCommand => {
-				if (tableCommand.command) {
+			.then(res => {
+				if (res.command) {
 					this.props.onRouteChange('home')
 					this.props.loadUser(this.state.signInUser);
+				} else {
+				this.setState({ errorText: res });
+				document.getElementById("name-desc").classList.remove("hid");
+				document.getElementById("name-desc").classList.add("vis");
 				}
 			})
-			.catch(console.log("unable to register"))
 		} else {
-			console.log("passwords must match");
+			this.setState({ errorText: "Passwords must match" });
+			document.getElementById("name-desc").classList.remove("hid");
+			document.getElementById("name-desc").classList.add("vis");
 		}
 	}
 
@@ -55,7 +61,7 @@ class Register extends React.Component {
 			    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
 			      <h1 className="header ma0">Nota Bene</h1>
 			      <div className="mt3">
-			        <label className="db fw6 lh-copy f6" htmlFor="emaihtmlForl-address">Name</label>
+			        <label className="db fw6 lh-copy f6">Name</label>
 			        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
 			        type="email" name="name"  id="name" 
 			        onChange={this.onNameChange} />
@@ -73,8 +79,14 @@ class Register extends React.Component {
 			        type="password" name="password"  id="confirmPassword"
 			        onChange={this.onConfirmPasswordChange}
 			         />
-			      </div>
-			      <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox" /> Remember me</label>
+			        <div id="name-desc" className="center br2 f6 bg-washed-red db w5 pa2 hid mt1 ">
+			        	<svg class="w1" data-icon="info" viewBox="0 0 32 32">
+						    <title>info icon</title>
+						    <path d="M16 0 A16 16 0 0 1 16 32 A16 16 0 0 1 16 0 M19 15 L13 15 L13 26 L19 26 z M16 6 A3 3 0 0 0 16 12 A3 3 0 0 0 16 6"></path>
+						</svg>
+					 	<span class="lh-title ml3">{this.state.errorText}</span>
+					</div>
+				  </div>
 			    </fieldset>
 			    <div className="">
 			      <p className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 

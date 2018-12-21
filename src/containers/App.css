@@ -20,6 +20,10 @@ background-size: 100% 1.2em;
   font-weight: 100;
 }
 
+.sign-in-bar {
+  width: 96.25%;
+}
+
 .fade-in {
   opacity: 1;
   animation-name: fadeInOpacity;
@@ -37,6 +41,10 @@ background-size: 100% 1.2em;
   }
 }
 
+.note-list {
+  overflow: scroll;
+  max-height: 500px;
+}
 .note {
   display: flex;
 }
@@ -47,4 +55,16 @@ background-size: 100% 1.2em;
 
 .note-title {
   width: 90%;
+}
+
+.vis {
+  visibility: visible;
+}
+
+.hid {
+  visibility: hidden;
+}
+
+#name-desc {
+  margin-bottom: -35px;
 }
