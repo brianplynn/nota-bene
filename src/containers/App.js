@@ -62,7 +62,7 @@ class App extends Component {
       const orderedNotes = newNotes.map((note, i) => {
         return Object.assign(note, {key: i}) 
       })
-       this.setState({ notes: orderedNotes, noteMenu: true, currNote:{} },
+       this.setState({ notes: orderedNotes, noteMenu: true, edited: false, currNote:{} },
                       () => this.syncNotes()); 
     } else if (this.state.edited && this.state.selectedIndex < 0) {
       this.setState(prevState => ({
