@@ -39,6 +39,7 @@ class App extends Component {
 
   newNote = () => { 
     this.setState( {noteMenu: false, currNote: {title: "", body: ""}})
+    this.setState({ noteid: this.state.notes.length});
   }
 
   titleChange = (event) => {
@@ -109,7 +110,7 @@ class App extends Component {
   }
 
   syncNotes = () => {
-    fetch('http://localhost:3001/notes', {
+    fetch('https://floating-badlands-26353.herokuapp.com/notes', {
         method: "put",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({  

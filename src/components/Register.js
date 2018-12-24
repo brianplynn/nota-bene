@@ -26,7 +26,7 @@ class Register extends React.Component {
 
 	onRegister = () => {
 		if (this.state.password === this.state.confirmPassword) {
-			fetch('http://localhost:3001/register', {
+			fetch('https://floating-badlands-26353.herokuapp.com/register', {
 				method: "post",
 				headers: {'Content-Type': 'application/json'},
 				body: JSON.stringify({
