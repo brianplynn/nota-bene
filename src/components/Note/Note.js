@@ -1,4 +1,5 @@
 import React from 'react';
+import "./Note.css"
 
 const Note = ({ selectNote, deleteNote, title, body, id }) => {
 	

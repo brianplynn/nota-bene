@@ -1,0 +1,11 @@
+.note {
+  display: flex;
+}
+
+.note:hover {
+  color: rgb(100, 100, 100);
+}
+
+.note-title {
+  width: 90%;
+}

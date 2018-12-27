@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import SelectedNote from "../components/SelectedNote.js";
-import Signin from "../components/Signin.js";
-import Register from "../components/Register.js";
-import Toolbar from "./Toolbar.js";
-import NoteList from "./NoteList.js";
+import SelectedNote from "../components/SelectedNote/SelectedNote.js";
+import Signin from "../components/Signin/Signin.js";
+import Register from "../components/Register/Register.js";
+import Toolbar from "../components/Toolbar/Toolbar.js";
+import NoteList from "../components/NoteList/NoteList.js";
 
 
 // TODO: tasteful overflow for notes

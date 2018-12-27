@@ -41,22 +41,6 @@ background-size: 100% 1.2em;
   }
 }
 
-.note-list {
-  overflow: scroll;
-  max-height: 500px;
-}
-.note {
-  display: flex;
-}
-
-.note:hover {
-  color: rgb(100, 100, 100);
-}
-
-.note-title {
-  width: 90%;
-}
-
 .vis {
   visibility: visible;
 }
