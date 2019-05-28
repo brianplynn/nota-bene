@@ -1,7 +1,6 @@
 import React from "react";
 
 class Register extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -80,11 +79,11 @@ class Register extends React.Component {
 			        onChange={this.onConfirmPasswordChange}
 			         />
 			        <div id="name-desc" className="center br2 f6 bg-washed-red db w5 pa2 hid mt1 ">
-			        	<svg class="w1" data-icon="info" viewBox="0 0 32 32">
+			        	<svg className="w1" data-icon="info" viewBox="0 0 32 32">
 						    <title>info icon</title>
 						    <path d="M16 0 A16 16 0 0 1 16 32 A16 16 0 0 1 16 0 M19 15 L13 15 L13 26 L19 26 z M16 6 A3 3 0 0 0 16 12 A3 3 0 0 0 16 6"></path>
 						</svg>
-					 	<span class="lh-title ml3">{this.state.errorText}</span>
+					 	<span className="lh-title ml3">{this.state.errorText}</span>
 					</div>
 				  </div>
 			    </fieldset>
